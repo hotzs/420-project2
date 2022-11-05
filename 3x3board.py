@@ -4,7 +4,6 @@ class three_board:
         board_dict = {
 
         }
-
         for i in range(1,10):
             for j in range(1,10):
                 temp_name = ""
@@ -49,7 +48,7 @@ class three_board:
                 letter = temp_name
                 number = j
                 temp_name += str(j)
-                board_dict[temp_name] = tile(0,temp_name)
+                board_dict[temp_name] = tile(temp_name)
                 if (letter == "a" or letter == "b" or letter == "c") and (number == 1 or number == 2 or number == 3):
                     board_dict[temp_name].set_family(1)
                 elif (letter == "d" or letter == "e" or letter == "f") and (number == 1 or number == 2 or number == 3):

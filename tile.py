@@ -2,8 +2,8 @@ from contextlib import nullcontext
 
 
 class tile:
-    def __init__(self, num, name):
-        self.num = num
+    def __init__(self, name):
+        self.num = 0
         self.name = name
         self.up_tile = None
         self.down_tile = None
@@ -17,10 +17,14 @@ class tile:
         #find a way to store a constraint not as a string
         print("Cannot be ")
     def add_constraint(self,name):
-        self.constraint.append(name)
+        self.constraints.append(name)
     def set_family(self,num):
         self.family = num
     def get_family(self):
         return self.family
     def get_name(self):
         return self.name
+    def get_num(self):
+        return self.num
+    def set_num(self,num):
+        self.num = num

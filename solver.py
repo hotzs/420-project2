@@ -1,17 +1,23 @@
 #add csp solver here
-def solved(assignment):
-    """ Return TRUE if 1 assignment per tile. """
-    return all(len(item) == 1 for item in assignment.values())
+def solved(dictionary):
+    for key in dictionary:
+        if dictionary[key].get_num() == 0:
+            return 0
+        return 1
 
-def consistent(variable, value, assignment, csp):
-    """ Return TRUE if no domain of variables constrained to VARIABLE equals VALUE. """
-    return all(assignment[constraint] != value for constraint in csp[variable])
+def consistent(dictionary):
+    for key in dictionary:
+        for i in dictionary[key].constraints:
+            if dictionary[key].get_name == dictionary[key].constraints[i]:
+                return 0
+    return 1
 
 #base
 
 #figure6.5 in textbook
-def backtrack(assignment, csp):
-  if assignment is complete: return assignment
+def backtrack(dictionary, csp):
+  if consistent(dictionary) == 1: 
+    return dictionary
   var = select-unassigned-variable(csp)
   for each value in order-domain-values(var, assignment, csp):
     if value is consistent with assignment:
