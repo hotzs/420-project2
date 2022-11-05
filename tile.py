@@ -9,6 +9,7 @@ class tile:
         self.down_tile = None
         self.left_tile = None
         self.right_tile = None
+        self.family = 0
         self.contraints = []
         self.domain = [1,2,3,4,5,6,7,8,9]
         self.num = 0
@@ -17,3 +18,9 @@ class tile:
         print("Cannot be ")
     def add_constraint(self,name):
         self.constraint.append(name)
+    def set_family(self,num):
+        self.family = num
+    def get_family(self):
+        return self.family
+    def get_name(self):
+        return self.name
