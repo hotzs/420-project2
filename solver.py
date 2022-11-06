@@ -65,6 +65,29 @@ def backtrack(board,level):
                     if solved(result.board_dict) == 1:
                         if consistent(result.board_dict) == 1: 
                             return result
+
+def backtrack_MRV_LCV(board,level):
+    if 0 == 0:
+        print("Called backtrack", str(level))
+    if solved(board.board_dict) == 1:
+        if consistent(board.board_dict) == 1: 
+            return board
+    curr_tile = select_unassigned_mrv(board.board_dict)
+    #print("next nodes ",length)
+    for value in curr_tile.get_domain():
+        if level == 0:
+            print("level ",str(level)," trying values", curr_tile .get_name()," ", str(value))
+        #if value not in curr_tile.get_tried():
+        if test_consistent(curr_tile ,value,board.board_dict) == 1:
+                if 0 == 0:
+                    print("found consistent at ", curr_tile .get_name()," ", value)
+                curr_tile.set_num(value)
+                curr_tile.add_tried(value)
+                result = backtrack_MRV_LCV(board.duplicate_board(),level+1)
+                if result is not None:
+                    if solved(result.board_dict) == 1:
+                        if consistent(result.board_dict) == 1: 
+                            return result
         
 
       #inferences = inference(csp, var, value)
@@ -79,14 +102,31 @@ def backtrack(board,level):
 #with AC-3
 
 #variable/value ordering
-def unassigned(assignment, csp):
-    bestValue = 10
-    bestVar = None
-    for var, value in assignment.items():
-        if len(value) > 1 and len(value) < bestValue:
-            bestValue = len(value)
-            bestVar = var
-    return bestVar
+def select_unassigned_mrv(dictionary):
+    open_tiles = []
+    count = 0
+    for key in dictionary:
+        if dictionary[key].get_num() == 0:
+            open_tiles.append(dictionary[key])
+    best = 0
+    return_tile = open_tiles[0]
+    for i in open_tiles:
+        count = 0
+        for constraint in open_tiles:
+            if constraint.get_num() != 0:
+                count+=1
+        if count > best:
+            best = count
+            return_tile = constraint
+    return return_tile
+
+
+
+
+def lcv(var, assignment, csp):
+    """Least-constraining-values heuristic."""
+    return sorted(csp.choices(var),
+                  key=lambda val: csp.nconflicts(var, val, assignment))
 #with forward checking
 def inference(assignment, var_to_update, value, csp):
     """ Assign VALUE to VAR_TO_UPDATE in ASSIGNMENT. Update domains of

@@ -132,7 +132,7 @@ def test_base():
     board = three_board()
     init_dict(test_board1,board.board_dict)
     board.print_board()
-    doneboard=backtrack(board,0)
+    doneboard=backtrack_MRV_LCV(board,0)
     doneboard.print_board()
     # for i in range(1,10):
     #         o_str = ""
