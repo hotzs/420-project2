@@ -20,11 +20,13 @@ def select_unassigned_tile(dictionary):
     for key in dictionary:
         if dictionary[key].get_num() == 0:
             open_tiles.append(dictionary[key])
-    return (random.choice(open_tiles))
+    #return (random.choice(open_tiles))
+    return (open_tiles[0])
     
 def test_consistent(tile,value,dictionary):
     for tiles in tile.get_constraints():
-        if value == dictionary[tiles].num:
+        if value == dictionary[tiles].get_num():
+            #print("found inconsistent: ", value," ", tiles," ", dictionary[tiles].get_num())
             return 0
     return 1
 
@@ -33,18 +35,24 @@ def test_consistent(tile,value,dictionary):
 #base
 
 #figure6.5 in textbook
-def backtrack(dictionary,level):
-    print("Called backtrack", str(level))
-    if solved(dictionary) == 1 and consistent(dictionary) == 1: 
-        return dictionary
-    curr_tile = select_unassigned_tile(dictionary)
+def backtrack(board,level):
+    if 0 == 0:
+        print("Called backtrack", str(level))
+    if solved(board.board_dict) == 1 and consistent(board.board_dict) == 1: 
+        return board
+    curr_tile = select_unassigned_tile(board.board_dict)
     #print("next nodes ",length)
-    for value in curr_tile .get_domain():
-        print("level ",str(level)," trying values", curr_tile .get_name()," ", str(value))
-        if test_consistent(curr_tile ,value,dictionary):
-            print("found consistent at ", curr_tile .get_name())
-            curr_tile .set_num(value)
-            result = backtrack(dictionary,level+1)
+    for value in curr_tile.get_domain():
+        if level == 0:
+            print("level ",str(level)," trying values", curr_tile .get_name()," ", str(value))
+        #if value not in curr_tile.get_tried():
+        if test_consistent(curr_tile ,value,board.board_dict):
+                if 0 == 0:
+                    print("found consistent at ", curr_tile .get_name()," ", value)
+                curr_tile.set_num(value)
+                curr_tile.add_tried(value)
+                result = backtrack(board.duplicate_board(),level+1)
+        
 
       #inferences = inference(csp, var, value)
     #   if inferences do not fail:

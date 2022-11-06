@@ -49,14 +49,15 @@ def test_base():
     board = three_board()
     init_dict(test_board1,board.board_dict)
     board.print_board()
-    doneboard=backtrack(board.board_dict,0)
-    for i in range(1,10):
-            o_str = ""
-            for j in ["a","b","c","d","e","f","g","h","i"]:
-                key = j + str(i)
-                o_str+=str(doneboard[key].get_num())
-                o_str += " "
-            print(o_str)
+    doneboard=backtrack(board,0)
+    doneboard.print_board()
+    # for i in range(1,10):
+    #         o_str = ""
+    #         for j in ["a","b","c","d","e","f","g","h","i"]:
+    #             key = j + str(i)
+    #             o_str+=str(doneboard[key].get_num())
+    #             o_str += " "
+    #         print(o_str)
 
 
 test_base()

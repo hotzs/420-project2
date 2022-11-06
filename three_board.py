@@ -99,11 +99,12 @@ class three_board:
                             temp_name2 +="i"
                         temp_name2+= str(number)
                         self.board_dict[temp_name].add_constraint(temp_name2)
+                #print(self.board_dict.keys())
+                for key in self.board_dict:
+                    if self.board_dict[key].get_family() == self.board_dict[temp_name].get_family():
+                        self.board_dict[temp_name].add_constraint(self.board_dict[key].get_name())
 
-        #print(self.board_dict.keys())
-        for key in self.board_dict:
-            if self.board_dict[key].get_family() == self.board_dict[temp_name].get_family():
-                self.board_dict[temp_name].add_constraint(self.board_dict[key].get_name())
+        
     def print_board(self):
         for i in range(1,10):
             o_str = ""
@@ -112,6 +113,14 @@ class three_board:
                 o_str+=str(self.board_dict[key].get_num())
                 o_str += " "
             print(o_str)
+    def duplicate_board(self):
+        new_board = three_board()
+        for key in self.board_dict:
+            new_board.board_dict[key].set_num(self.board_dict[key].get_num())
+            new_board.board_dict[key].set_constraints(self.board_dict[key].get_constraints())
+            new_board.board_dict[key].set_tried(self.board_dict[key].get_tried())
+            #new_board.board_dict[key].set_family(self.board_dict[key].get_familt())
+        return new_board
 
 
 
