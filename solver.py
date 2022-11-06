@@ -74,16 +74,20 @@ def backtrack_MRV_LCV(board,level):
             return board
     curr_tile = select_unassigned_mrv(board.board_dict)
     #print("next nodes ",length)
-    for value in curr_tile.get_domain():
+    print(curr_tile.get_name()," domain: ",curr_tile.get_domain())
+    for value in lcv(curr_tile,board.board_dict):
         if level == 0:
             print("level ",str(level)," trying values", curr_tile .get_name()," ", str(value))
         #if value not in curr_tile.get_tried():
         if test_consistent(curr_tile ,value,board.board_dict) == 1:
                 if 0 == 0:
                     print("found consistent at ", curr_tile .get_name()," ", value)
+                new_board = board.duplicate_board()
+                curr_tile = new_board.board_dict[curr_tile.get_name()]
+                new_board.mod_domains(curr_tile,value)
                 curr_tile.set_num(value)
-                curr_tile.add_tried(value)
-                result = backtrack_MRV_LCV(board.duplicate_board(),level+1)
+                #curr_tile.add_tried(value)
+                result = backtrack_MRV_LCV(new_board,level+1)
                 if result is not None:
                     if solved(result.board_dict) == 1:
                         if consistent(result.board_dict) == 1: 
@@ -123,10 +127,39 @@ def select_unassigned_mrv(dictionary):
 
 
 
-def lcv(var, assignment, csp):
-    """Least-constraining-values heuristic."""
-    return sorted(csp.choices(var),
-                  key=lambda val: csp.nconflicts(var, val, assignment))
+def lcv(tile, dictionary):
+    best = 0
+    largest = 0
+    ret_list = []
+    count_list = []
+    domain = []
+    for i in tile.get_domain():
+        domain.append(i)
+    for num in domain:
+        count = 0
+        for constraint in tile.get_constraints():
+            if num in dictionary[constraint].get_domain():
+                count +=1
+        count_list.append(count)
+    print(domain)
+    print(count_list)
+    largest = 0
+    #THIS FOR LOOP IS NOT FUNCTIONING CORRECTLY
+    
+    while len(domain) !=0:
+        for i in range (len(domain)):
+            if count_list[i] > best:
+                best = count_list[i]
+                largest = domain[i]
+        print("largest ",largest)
+        ret_list.append(largest)
+        domain.remove(largest)
+        count_list.remove(best)
+    print(ret_list)
+    return ret_list
+
+
+
 #with forward checking
 def inference(assignment, var_to_update, value, csp):
     """ Assign VALUE to VAR_TO_UPDATE in ASSIGNMENT. Update domains of

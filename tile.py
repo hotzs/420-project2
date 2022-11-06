@@ -36,6 +36,15 @@ class tile:
         self.num = num
     def get_domain(self):
         return self.domain
+    def set_domain(self,domain):
+        self.domain = domain
+    def delete_domain(self,num):
+        if num in self.domain:
+            self.domain.remove(num)
+    def new_domain(self):
+        self.domain = []
+    def add_domain(self,num):
+        self.domain.append(num)
     def get_constraints(self):
         return self.constraints
     def set_constraints(self,constraints):

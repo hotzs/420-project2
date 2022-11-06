@@ -102,9 +102,17 @@ class three_board:
         for key in self.board_dict:
             new_board.board_dict[key].set_num(self.board_dict[key].get_num())
             new_board.board_dict[key].set_constraints(self.board_dict[key].get_constraints())
-            new_board.board_dict[key].set_tried(self.board_dict[key].get_tried())
+            new_board.board_dict[key].new_domain()
+            for i in self.board_dict[key].get_domain():
+                new_board.board_dict[key].add_domain(i)
+            #new_board.board_dict[key].set_tried(self.board_dict[key].get_tried())
             #new_board.board_dict[key].set_family(self.board_dict[key].get_familt())
         return new_board
+
+    def mod_domains(self,curr_tile,value):
+        for constraint in curr_tile.get_constraints():
+            self.board_dict[constraint].delete_domain(value)
+
 
 
 
