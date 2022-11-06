@@ -3,15 +3,19 @@ import random
 def solved(dictionary):
     for key in dictionary:
         if dictionary[key].get_num() == 0:
+            #print("found a 0")
             return 0
-        return 1
+    print("solved")
+    return 1
 
 def consistent(dictionary):
     for key in dictionary:
         my_list = dictionary[key].get_constraints()
         for i in my_list:
-            if dictionary[key].get_num() ==  dictionary[i].get_num():
+            if (dictionary[key].get_num() ==  dictionary[i].get_num()) and (key!= i):
+                print("found an inconsistentsy ", key, " " ,dictionary[key].get_num(), " ", i, " ",dictionary[i].get_num() )
                 return 0
+    print("consistent")
     return 1
 
 def select_unassigned_tile(dictionary):
@@ -20,14 +24,18 @@ def select_unassigned_tile(dictionary):
     for key in dictionary:
         if dictionary[key].get_num() == 0:
             open_tiles.append(dictionary[key])
-    #return (random.choice(open_tiles))
-    return (open_tiles[0])
+    return (random.choice(open_tiles))
+    #return (open_tiles[0])
     
 def test_consistent(tile,value,dictionary):
+    #print(tile.get_name(), " constraints ", tile.get_constraints() )
     for tiles in tile.get_constraints():
-        if value == dictionary[tiles].get_num():
+        #if tile.get_name() == "a8":
+        #print("tile ", tile.get_name()," value ", value, " tile ",tiles, " tilenum ", dictionary[tiles].get_num() )
+        if tiles != tile.get_name():
+            if value == dictionary[tiles].get_num():
             #print("found inconsistent: ", value," ", tiles," ", dictionary[tiles].get_num())
-            return 0
+                return 0
     return 1
 
 
@@ -38,20 +46,25 @@ def test_consistent(tile,value,dictionary):
 def backtrack(board,level):
     if 0 == 0:
         print("Called backtrack", str(level))
-    if solved(board.board_dict) == 1 and consistent(board.board_dict) == 1: 
-        return board
+    if solved(board.board_dict) == 1:
+        if consistent(board.board_dict) == 1: 
+            return board
     curr_tile = select_unassigned_tile(board.board_dict)
     #print("next nodes ",length)
     for value in curr_tile.get_domain():
         if level == 0:
             print("level ",str(level)," trying values", curr_tile .get_name()," ", str(value))
         #if value not in curr_tile.get_tried():
-        if test_consistent(curr_tile ,value,board.board_dict):
+        if test_consistent(curr_tile ,value,board.board_dict) == 1:
                 if 0 == 0:
                     print("found consistent at ", curr_tile .get_name()," ", value)
                 curr_tile.set_num(value)
                 curr_tile.add_tried(value)
                 result = backtrack(board.duplicate_board(),level+1)
+                if result is not None:
+                    if solved(result.board_dict) == 1:
+                        if consistent(result.board_dict) == 1: 
+                            return result
         
 
       #inferences = inference(csp, var, value)

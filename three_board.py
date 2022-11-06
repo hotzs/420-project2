@@ -72,37 +72,21 @@ class three_board:
                 #add column constraints
                 for k in range (1,10):
                     temp_add = letter
-                    if k!=i:
+                    if k!=number:
                         temp_add += str(k)
                         self.board_dict[temp_name].add_constraint(temp_add)
                 #add row constraints
-                for k in range (1,10):
-                    temp_name2 = ""
-                    if k!=j:
-                        if k == 1:
-                            temp_name2 +="a"
-                        elif k == 2:
-                            temp_name2 +="b"
-                        elif k == 3:
-                            temp_name2 +="c"
-                        elif k == 4:
-                            temp_name2 +="d"
-                        elif k == 5:
-                            temp_name2 +="e"
-                        elif k == 6:
-                            temp_name2 +="f"
-                        elif k == 7:
-                            temp_name2 +="g"
-                        elif k == 8:
-                            temp_name2 +="h"
-                        elif k == 9:
-                            temp_name2 +="i"
+                for k in ["a","b","c","d","e","f","g","h","i"]:
+                    temp_name2 = k
+                    if k != letter:
                         temp_name2+= str(number)
                         self.board_dict[temp_name].add_constraint(temp_name2)
-                #print(self.board_dict.keys())
-                for key in self.board_dict:
-                    if self.board_dict[key].get_family() == self.board_dict[temp_name].get_family():
-                        self.board_dict[temp_name].add_constraint(self.board_dict[key].get_name())
+                #fam
+        for key in self.board_dict:
+            for key2 in self.board_dict:
+                if key != key2:
+                    if self.board_dict[key].get_family() == self.board_dict[key2].get_family():
+                        self.board_dict[key].add_constraint(self.board_dict[key2].get_name())
 
         
     def print_board(self):
