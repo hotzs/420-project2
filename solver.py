@@ -145,9 +145,11 @@ def lcv(tile, dictionary):
     print(count_list)
     largest = 0
     #THIS FOR LOOP IS NOT FUNCTIONING CORRECTLY
-    
+
     while len(domain) !=0:
         for i in range (len(domain)):
+            largest = 0
+            best = 0
             if count_list[i] > best:
                 best = count_list[i]
                 largest = domain[i]
