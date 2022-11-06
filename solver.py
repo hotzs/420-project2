@@ -1,4 +1,5 @@
 #add csp solver here
+import random
 def solved(dictionary):
     for key in dictionary:
         if dictionary[key].get_num() == 0:
@@ -7,29 +8,51 @@ def solved(dictionary):
 
 def consistent(dictionary):
     for key in dictionary:
-        for i in dictionary[key].constraints:
-            if dictionary[key].get_name == dictionary[key].constraints[i]:
+        my_list = dictionary[key].get_constraints()
+        for i in my_list:
+            if dictionary[key].get_num() ==  dictionary[i].get_num():
                 return 0
     return 1
+
+def select_unassigned_tile(dictionary):
+    open_tiles = []
+    count = 0
+    for key in dictionary:
+        if dictionary[key].get_num() == 0:
+            open_tiles.append(dictionary[key])
+    return (random.choice(open_tiles))
+    
+def test_consistent(tile,value,dictionary):
+    for tiles in tile.get_constraints():
+        if value == dictionary[tiles].num:
+            return 0
+    return 1
+
+
 
 #base
 
 #figure6.5 in textbook
-def backtrack(dictionary, csp):
-  if consistent(dictionary) == 1: 
-    return dictionary
-  var = select-unassigned-variable(csp)
-  for each value in order-domain-values(var, assignment, csp):
-    if value is consistent with assignment:
-      set var = value in assignment
-      inferences = inference(csp, var, value)
-      if inferences do not fail:
-        add inferences to assignment
-        result = backtrack(assignment, csp)
-        if result is not failure:
-          return result
-    remove var = value and inferences from assignment
-    return failure
+def backtrack(dictionary,level):
+    print("Called backtrack", str(level))
+    if solved(dictionary) == 1 and consistent(dictionary) == 1: 
+        return dictionary
+    curr_tile = select_unassigned_tile(dictionary)
+    #print("next nodes ",length)
+    for value in curr_tile .get_domain():
+        print("level ",str(level)," trying values", curr_tile .get_name()," ", str(value))
+        if test_consistent(curr_tile ,value,dictionary):
+            print("found consistent at ", curr_tile .get_name())
+            curr_tile .set_num(value)
+            result = backtrack(dictionary,level+1)
+
+      #inferences = inference(csp, var, value)
+    #   if inferences do not fail:
+    #     add inferences to assignment
+    #     result = backtrack(assignment, csp)
+    #     if result is not failure:
+    #       return result
+    #remove var = value and inferences from assignment
 
     
 #with AC-3

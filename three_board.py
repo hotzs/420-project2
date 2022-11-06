@@ -1,7 +1,7 @@
 from tile import tile
 class three_board:
     def __init__(self):
-        board_dict = {
+        self.board_dict = {
 
         }
         for i in range(1,10):
@@ -48,25 +48,25 @@ class three_board:
                 letter = temp_name
                 number = j
                 temp_name += str(j)
-                board_dict[temp_name] = tile(temp_name)
+                self.board_dict[temp_name] = tile(temp_name)
                 if (letter == "a" or letter == "b" or letter == "c") and (number == 1 or number == 2 or number == 3):
-                    board_dict[temp_name].set_family(1)
+                    self.board_dict[temp_name].set_family(1)
                 elif (letter == "d" or letter == "e" or letter == "f") and (number == 1 or number == 2 or number == 3):
-                    board_dict[temp_name].set_family(2)
+                    self.board_dict[temp_name].set_family(2)
                 elif (letter == "g" or letter == "h" or letter == "i") and (number == 1 or number == 2 or number == 3):
-                    board_dict[temp_name].set_family(3)
+                    self.board_dict[temp_name].set_family(3)
                 elif (letter == "a" or letter == "b" or letter == "c") and (number == 4 or number == 5 or number == 6):
-                    board_dict[temp_name].set_family(4)
+                    self.board_dict[temp_name].set_family(4)
                 elif (letter == "d" or letter == "e" or letter == "f") and (number == 4 or number == 5 or number == 6):
-                    board_dict[temp_name].set_family(5)
+                    self.board_dict[temp_name].set_family(5)
                 elif (letter == "g" or letter == "h" or letter == "i") and (number == 4 or number == 5 or number == 6):
-                    board_dict[temp_name].set_family(6)
+                    self.board_dict[temp_name].set_family(6)
                 elif (letter == "a" or letter == "b" or letter == "c") and (number == 7 or number == 8 or number == 9):
-                    board_dict[temp_name].set_family(7)
+                    self.board_dict[temp_name].set_family(7)
                 elif (letter == "d" or letter == "e" or letter == "f") and (number == 7 or number == 8 or number == 9):
-                    board_dict[temp_name].set_family(8)
+                    self.board_dict[temp_name].set_family(8)
                 elif (letter == "g" or letter == "h" or letter == "i") and (number == 7 or number == 8 or number == 9):
-                    board_dict[temp_name].set_family(9)
+                    self.board_dict[temp_name].set_family(9)
                 
 
                 #add column constraints
@@ -74,7 +74,7 @@ class three_board:
                     temp_add = letter
                     if k!=i:
                         temp_add += str(k)
-                        board_dict[temp_name].add_constraint(temp_add)
+                        self.board_dict[temp_name].add_constraint(temp_add)
                 #add row constraints
                 for k in range (1,10):
                     temp_name2 = ""
@@ -97,18 +97,26 @@ class three_board:
                             temp_name2 +="h"
                         elif k == 9:
                             temp_name2 +="i"
-                        temp_name2+= number
-                        board_dict[temp_name].add_constraint(temp_name2)
+                        temp_name2+= str(number)
+                        self.board_dict[temp_name].add_constraint(temp_name2)
+
+        #print(self.board_dict.keys())
+        for key in self.board_dict:
+            if self.board_dict[key].get_family() == self.board_dict[temp_name].get_family():
+                self.board_dict[temp_name].add_constraint(self.board_dict[key].get_name())
+    def print_board(self):
+        for i in range(1,10):
+            o_str = ""
+            for j in ["a","b","c","d","e","f","g","h","i"]:
+                key = j + str(i)
+                o_str+=str(self.board_dict[key].get_num())
+                o_str += " "
+            print(o_str)
 
 
-
-        print(board_dict.keys())
-        for key in board_dict:
-            if board_dict[key].get_family() == board_dict[temp_name].get_family():
-                board_dict[temp_name].add_constraint(board_dict[key].get_name())
 
                 
 
-print("starting")
-board = three_board()
-print("ending")
+#print("starting")
+#board = three_board()
+#print("ending")
