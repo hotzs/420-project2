@@ -83,7 +83,8 @@ def backtrack_MRV_LCV(board,level,MRV,LCV,FC):
         curr_tile = select_unassigned_tile(board.board_dict)
 
     #print("next nodes ",length)
-    print(curr_tile.get_name()," domain: ",curr_tile.get_domain())
+    #print(curr_tile.get_name()," domain: ",curr_tile.get_domain())
+    #print(curr_tile.get_name(), " constraints ",curr_tile.get_constraints())
     if LCV:
         dom_list = lcv(curr_tile,board.board_dict)
     else:
@@ -113,6 +114,7 @@ def backtrack_MRV_LCV(board,level,MRV,LCV,FC):
 def AC3_check(board):
     for key in board.board_dict:
         if board.board_dict[key].get_num() != 0:
+            print("calling mod domains in ac3")
             mod_domains(board,board.board_dict[key],board.board_dict[key].get_num())
 
 #variable/value ordering
@@ -159,34 +161,35 @@ def lcv(tile, dictionary):
         return ret_list
     elif len(domain) == 0:
         return ret_list
-    print(domain)
-    print(count_list)
+    #print(domain)
+   # print(count_list)
     while len(domain) !=0:
         largest = 0
         best = 0
         for i in range (len(domain)):
-            print("count_list ", count_list[i], " best ",best)
+            #rint("count_list ", count_list[i], " best ",best)
             if count_list[i] > best:
                 best = count_list[i]
                 largest = domain[i]
-                print("largest ",largest)
-        print("largest ",largest, " best ",best)
-        print(domain)
+                #print("largest ",largest)
+        #print("largest ",largest, " best ",best)
+        #print(domain)
         if largest == 0:
             for i in domain:
                 ret_list.append(i)
                 domain.remove(i)
             return ret_list
         ret_list.append(largest)
-        print(largest)
+        #print(largest)
         domain.remove(largest)
         count_list.remove(best)
-    print(ret_list)
+    #print(ret_list)
     return ret_list
 
 
 
 #with forward checking
 def mod_domains(board,curr_tile,value):
+        #print(curr_tile.get_constraints())
         for constraint in curr_tile.get_constraints():
             board.board_dict[constraint].delete_domain(value)

@@ -60,3 +60,8 @@ class tile:
             if constraint not in ret_tile.get_constraints():
                 ret_tile.add_constraint(constraint)
         return ret_tile
+    def remove_duplicates(self):
+        for i in self.constraints:
+            for j in self.constraints:
+                if i == j:
+                    self.delete_constraint(j)
