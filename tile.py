@@ -41,6 +41,9 @@ class tile:
     def delete_domain(self,num):
         if num in self.domain:
             self.domain.remove(num)
+    def delete_constraint(self,constraint):
+        if constraint in self.constraints:
+            self.constraints.remove(constraint)
     def new_domain(self):
         self.domain = []
     def add_domain(self,num):
@@ -49,3 +52,11 @@ class tile:
         return self.constraints
     def set_constraints(self,constraints):
         self.constraints = constraints
+    def add_tiles(self,tile2):
+        ret_tile = tile(self.get_name())
+        for constraint in self.get_constraints():
+            ret_tile.add_constraint(constraint)
+        for constraint in tile2.get_constraints():
+            if constraint not in ret_tile.get_constraints():
+                ret_tile.add_constraint(constraint)
+        return ret_tile

@@ -1,7 +1,7 @@
 from tile import tile
 from solver import *
 from three_board import three_board
-
+from overlapping import overlapping
 
 
 def init_dict(board,dictionary):
@@ -132,7 +132,10 @@ def test_base():
     board = three_board()
     init_dict(test_board1,board.board_dict)
     board.print_board()
-    doneboard=CSP_Solver(board,True, True, True, True)
-    doneboard.print_board()
+    #doneboard=CSP_Solver(board,True, True, True, True)
+    #doneboard.print_board()
+    oboard = overlapping()
+    oboard.print_board()
+
 
 test_base()
