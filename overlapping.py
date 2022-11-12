@@ -141,15 +141,50 @@ class overlapping:
                     self.board_dict[key].delete_constraint(name2)
                     self.board_dict[key].add_constraint(name1)
     def print_board(self):
-        # for i in range(1,10):
-        #     o_str = ""
-        #     for j in ["a","b","c","d","e","f","g","h","i"]:
-        #         key = j + str(i)
-        #         o_str+=str(self.board_dict[key].get_num())
-        #         o_str += " "
-        #     print(o_str)
-        print(self.board_dict)
-        print(*self.board_dict.items(), sep='\n')
+        print("startunf print!")
+        secondary_let = ["g","h","i"]
+        for i in  range (1,10):
+            o_str = ""
+            for j in ["a","b","c","d","e","f","g","h","i"]:
+                key = j + str(i) + str(1)
+                o_str+=str(self.board_dict[key].get_num())
+                o_str += " "
+            if i == 4 or i ==5 or i == 6:
+                for j in  secondary_let:
+                    key = j + str(i) + str(2)
+                    o_str+=str(self.board_dict[key].get_num())
+                    o_str += " "
+            if i == 7 or i ==8 or i == 9:
+                for j in  secondary_let:
+                    key = j + str(i-3) + str(2)
+                    o_str+=str(self.board_dict[key].get_num())
+                    o_str += " "
+                for j in  secondary_let:
+                    key = j + str(i-6) + str(3)
+                    o_str+=str(self.board_dict[key].get_num())
+                    o_str += " "
+            print(o_str)
+        for i in range(7,10):
+            o_str = "      "
+            for j in ["a","b","c","d","e","f","g","h","i"]:
+                key = j + str(i) + str(2)
+                o_str+=str(self.board_dict[key].get_num())
+                o_str += " "
+            for j in secondary_let:
+                key = j + str(i-3) + str(3)
+                o_str+=str(self.board_dict[key].get_num())
+                o_str += " "
+            print(o_str)
+        
+        for i in range(7,10):
+            o_str = "            "
+            for j in ["a","b","c","d","e","f","g","h","i"]:
+                key = j + str(i) + str(3)
+                o_str+=str(self.board_dict[key].get_num())
+                o_str += " "
+            print(o_str)
+
+
     def duplicate_board(self):
         new_board = overlapping()
         for key in self.board_dict:
