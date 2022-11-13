@@ -68,10 +68,14 @@ def backtrack(board,level):
 def CSP_Solver(board,MRV,LCV,FC,AC3):
     if AC3:
         AC3_check(board)
-    return backtrack_MRV_LCV(board,0,MRV,LCV,FC)
+    num_calls = 0
+    return backtrack_MRV_LCV(board,0,MRV,LCV,FC,num_calls)
 
 
-def backtrack_MRV_LCV(board,level,MRV,LCV,FC):
+def backtrack_MRV_LCV(board,level,MRV,LCV,FC,num_calls):
+    #board.print_board()
+    num_calls +=1
+    board.num_calls= num_calls
     if 0 == 0:
         print("Called backtrack", str(level))
     if solved(board.board_dict) == 1:
@@ -102,7 +106,7 @@ def backtrack_MRV_LCV(board,level,MRV,LCV,FC):
                     mod_domains(new_board,curr_tile,value)
                 curr_tile.set_num(value)
                 #curr_tile.add_tried(value)
-                result = backtrack_MRV_LCV(new_board,level+1,MRV,LCV,FC)
+                result = backtrack_MRV_LCV(new_board,level+1,MRV,LCV,FC,num_calls)
                 if result is not None:
                     if solved(result.board_dict) == 1:
                         if consistent(result.board_dict) == 1: 
@@ -183,7 +187,7 @@ def lcv(tile, dictionary):
         #print(largest)
         domain.remove(largest)
         count_list.remove(best)
-    #print(ret_list)
+    print(ret_list)
     return ret_list
 
 

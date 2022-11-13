@@ -2,11 +2,17 @@ from tile import tile
 from solver import *
 from three_board import three_board
 from overlapping import overlapping
+from triple_boards import *
 
 
 def init_dict(board,dictionary):
+    filled = 0
     for key in board:
         dictionary[key].set_num(board[key])
+        if board[key] != 0:
+            filled +=1
+    percent_filled = filled/(19*9)
+    return percent_filled
 def test_base():
     test_board1 = {
         "a2" : 6,
@@ -129,40 +135,18 @@ def test_base():
         "i8" :4,
         "i9" :5
     }
-    test_board3 = {
-        "a11" : 6, "a21" : 1, "a31" : 3, "a41" : 8, "a51" : 5, "a61" : 4,"a71" : 2,"a81" : 9,"a91" : 7,
-        "b11" : 9,"b21" : 8,"b31" : 4,"b41" : 7, "b51" : 6, "b61" : 2, "b71" : 3, "b91" : 1,
-        "c21" : 2,"c61" : 3,"c81" : 4,"c91" : 6,
-        "d11" : 5,"d21" : 9,"d31" : 6,"d41" : 4,"d51" : 3,"d61" : 8,
-        "e11" : 4,"e21" : 3,"e31" : 1,"e41" : 5,"e51" : 2,"e71" : 9, "e81" : 6, "e91" : 8,
-        "f21" : 7, "f31" : 8, "f51" : 1, "f71" : 4, "f91" : 5,
-        "g11" : 1, "g21" : 4, "g41" : 9, "g51" : 7, "g61" : 6,"g71" : 5,"g81" : 8,
-        "h11" : 3, "h21" : 6, "h31" : 9, "h41" : 2, "h51" : 8, "h61" : 5,"h81" : 1,
-        "i21" : 5, "i31" : 7,  "a51" : 4, "a61" : 1,"a71" : 6,"a91" : 9,
-        "h22" : 4, "i12" : 6,
-        "g42" : 7, "h52" : 5, "i42" : 3,
-        "a92" : 7, "b82":8, "c72":4,
-        "d92" : 9, "e82" : 1,
-        "g72" : 3, "h82" : 2, "i92":8,
-        "a93" : 1 , "b83": 3, "c73":7,
-        "d93" : 2, "e83": 8, "f93": 7,
-        "g33" : 9, "h23" : 6, "i13" : 1,
-        "h53" : 5, "i43" : 9, "i63" : 2,
-        "g73" : 1, "h83" : 9, "i93" : 4
-
-
-
-    }
     board = three_board()
-    init_dict(test_board1,board.board_dict)
+    #init_dict(triple_board2,board.board_dict)
     #board.print_board()
     #doneboard=CSP_Solver(board,True, True, True, True)
     #doneboard.print_board()
-    oboard = overlapping()
-    init_dict(test_board3,oboard.board_dict)
-    oboard.print_board
+    oboard = overlapping() 
+    init_dict(triple_board10 ,oboard.board_dict)
+    oboard.print_board()
+    for key in oboard.board_dict:
+        print(key," ",oboard.board_dict[key].get_constraints())
     doneboard=CSP_Solver(oboard,True, True, True, True)
     doneboard.print_board()
-
+    print(doneboard.num_calls)
 
 test_base()

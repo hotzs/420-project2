@@ -2,6 +2,7 @@ from three_board import three_board
 from tile import tile
 class overlapping:
     def __init__(self):
+        self.num_calls = 0
         self.board_dict = {
 
         }
@@ -94,6 +95,28 @@ class overlapping:
                         if self.board_dict[key].get_family() == self.board_dict[key2].get_family():
                             self.board_dict[key].add_constraint(self.board_dict[key2].get_name())
         #print(self.board_dict.keys())
+        
+        b2lets = ["d","e","f","g","h","i"]
+        b3lets = ["a","b","c","d","e","f"]
+        b2nums = [4,5,6,7,8,9]
+        b3nums = [1,2,3,4,5,6]
+        for i in range(6):
+                for j in range(6):
+                    # if(i==0 or i==1 or i==2) and (j==0 or j==1 or j==2):
+                    #     name_keep = b2lets[i]+str(b2nums[j])+str(2)
+                    #     name_remove = b3lets[i]+str(b3nums[j])+str(3)
+                    #     #print("not replacing", name_remove, " with ", name_keep)
+                    #     #print(name_keep, " ", name_remove)
+                    # else:
+                    #     #print("replacing", name_remove, " with ", name_keep)
+                        name_keep = b2lets[i]+str(b2nums[j])+str(2)
+                        name_remove = b3lets[i]+str(b3nums[j])+str(3)
+                        tile_keep = self.board_dict[name_keep]
+                        tile_remove = self.board_dict[name_remove]
+                        self.board_dict.pop(name_keep)
+                        self.board_dict.pop(name_remove)
+                        self.board_dict[name_keep]=tile_keep.add_tiles(tile_remove)
+                        self.replace_constraints(name_keep,name_remove)
         b1lets = ["d","e","f","g","h","i"]
         b2lets = ["a","b","c","d","e","f"]
         b1nums = [4,5,6,7,8,9]
@@ -103,31 +126,14 @@ class overlapping:
                     #print("i ", i, " j ",j)
                     name_keep = b1lets[i]+str(b1nums[j])+str(1)
                     name_remove = b2lets[i]+str(b2nums[j])+str(2)
+                    #print("replacing", name_remove, " with ", name_keep)
                     tile_keep = self.board_dict[name_keep]
                     tile_remove = self.board_dict[name_remove]
                     self.board_dict.pop(name_keep)
                     self.board_dict.pop(name_remove)
                     self.board_dict[name_keep]=tile_keep.add_tiles(tile_remove)
                     self.replace_constraints(name_keep,name_remove)
-        b2lets = ["d","e","f","g","h","i"]
-        b3lets = ["a","b","c","d","e","f"]
-        b2nums = [4,5,6,7,8,9]
-        b3nums = [1,2,3,4,5,6]
-        for i in range(6):
-                for j in range(6):
-                    if(i==0 or i==1 or i==2) and (j==0 or j==1 or j==2):
-                        name_keep = b2lets[i]+str(b2nums[j])+str(2)
-                        name_remove = b3lets[i]+str(b3nums[j])+str(3)
-                        #print(name_keep, " ", name_remove)
-                    else:
-                        name_keep = b2lets[i]+str(b2nums[j])+str(2)
-                        name_remove = b3lets[i]+str(b3nums[j])+str(3)
-                        tile_keep = self.board_dict[name_keep]
-                        tile_remove = self.board_dict[name_remove]
-                        self.board_dict.pop(name_keep)
-                        self.board_dict.pop(name_remove)
-                        self.board_dict[name_keep]=tile_keep.add_tiles(tile_remove)
-                        self.replace_constraints(name_keep,name_remove)
+       
         for key in self.board_dict:
             self.board_dict[key].remove_duplicates()
 
@@ -151,7 +157,7 @@ class overlapping:
                 o_str += " "
             if i == 4 or i ==5 or i == 6:
                 for j in  secondary_let:
-                    key = j + str(i) + str(2)
+                    key = j + str(i-3) + str(2)
                     o_str+=str(self.board_dict[key].get_num())
                     o_str += " "
             if i == 7 or i ==8 or i == 9:
