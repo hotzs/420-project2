@@ -1,0 +1,12 @@
+Open     Calls
+Normal board, MRV, LCV
+open 45 calls 58
+open 15 calls 16
+open 45 calls 82
+open 43 calls 169
+open 51 calls 459
+open 51 calls 515
+open 51 calls 403
+open 51 calls 5093
+open 49 calls 2341
+open 51 calls 377

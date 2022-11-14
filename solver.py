@@ -1,5 +1,14 @@
 #add csp solver here
 import random
+class solver:
+    def __init__(self):
+        self.number = 0
+    def add(self):
+        self.number+=1
+
+
+
+
 def solved(dictionary):
     for key in dictionary:
         if dictionary[key].get_num() == 0:
@@ -65,19 +74,33 @@ def backtrack(board,level):
                     if solved(result.board_dict) == 1:
                         if consistent(result.board_dict) == 1: 
                             return result
-def CSP_Solver(board,MRV,LCV,FC,AC3):
+def CSP_Solver(board,MRV,LCV,FC,AC3,name):
     if AC3:
         AC3_check(board)
     num_calls = 0
-    return backtrack_MRV_LCV(board,0,MRV,LCV,FC,num_calls)
+    solve = solver()
+    return backtrack_MRV_LCV(board,0,MRV,LCV,FC,solve,name)
 
 
-def backtrack_MRV_LCV(board,level,MRV,LCV,FC,num_calls):
-    #board.print_board()
-    num_calls +=1
-    board.num_calls= num_calls
+def backtrack_MRV_LCV(board,level,MRV,LCV,FC,solve,name):
+    tracker = ""
+    if MRV:
+        tracker += "MRV TRUE"
+    else:
+        tracker += "MRV FALSE"
+    if LCV:
+        tracker += "LCV TRUE"
+    else:
+        tracker += "LCV FALSE"
+    if FC:
+        tracker += "FC TRUE"
+    else:
+        tracker += "FC FALSE"
+  
+    solve.add()
+    board.num_calls = solve.number
     if 0 == 0:
-        print("Called backtrack", str(level))
+        print(name," Called backtrack", str(level), " ", tracker)
     if solved(board.board_dict) == 1:
         if consistent(board.board_dict) == 1: 
             return board
@@ -93,20 +116,25 @@ def backtrack_MRV_LCV(board,level,MRV,LCV,FC,num_calls):
         dom_list = lcv(curr_tile,board.board_dict)
     else:
         dom_list = curr_tile.get_domain()
+    if 0 == 73:
+        print(curr_tile.get_name()," dom list", dom_list)
+        print(curr_tile.get_name()," constraints", curr_tile.get_constraints())
     for value in dom_list:
-        if level == 0:
-            print("level ",str(level)," trying values", curr_tile .get_name()," ", str(value))
+        if 0 == 73:
+            print("level ",str(level)," trying values", curr_tile.get_name()," ", str(value))
+            print(curr_tile.get_name()," constraints", curr_tile.get_constraints())
         #if value not in curr_tile.get_tried():
         if test_consistent(curr_tile ,value,board.board_dict) == 1:
                 if 0 == 0:
-                    print("found consistent at ", curr_tile .get_name()," ", value)
+                    print(name," found consistent at ", curr_tile .get_name()," ", value, " ", tracker)
                 new_board = board.duplicate_board()
                 curr_tile = new_board.board_dict[curr_tile.get_name()]
                 if FC:
                     mod_domains(new_board,curr_tile,value)
                 curr_tile.set_num(value)
                 #curr_tile.add_tried(value)
-                result = backtrack_MRV_LCV(new_board,level+1,MRV,LCV,FC,num_calls)
+                # new_board.num_calls = num_calls
+                result = backtrack_MRV_LCV(new_board,level+1,MRV,LCV,FC,solve,name)
                 if result is not None:
                     if solved(result.board_dict) == 1:
                         if consistent(result.board_dict) == 1: 
